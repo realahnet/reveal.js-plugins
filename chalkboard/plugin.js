@@ -446,7 +446,7 @@ console.warn( "toggleNotesButton is deprecated, use customcontrols plugin instea
 			container.style.pointerEvents = 'none';
 
 			var slides = document.querySelector( '.slides' );
-			var aspectRatio = Reveal.getConfig().width / Reveal.getConfig().height;
+			var aspectRatio = configWidth / configHeight;
 			if ( drawingCanvas[ id ].width > drawingCanvas[ id ].height * aspectRatio ) {
 				drawingCanvas[ id ].xOffset = ( drawingCanvas[ id ].width - drawingCanvas[ id ].height * aspectRatio ) / 2;
 			} else if ( drawingCanvas[ id ].height > drawingCanvas[ id ].width / aspectRatio ) {
@@ -523,14 +523,21 @@ console.warn( "toggleNotesButton is deprecated, use customcontrols plugin instea
  ** Storage
  ******************************************************************/
 
+	// reveal.js accepts percentage values for the deck dimensions (e.g.
+	// width: "100%"), but all chalkboard geometry requires numeric values.
+	// Fall back to the viewport size, which matches the dimensions the drawing
+	// canvases are created with (window.innerWidth / window.innerHeight).
+	var configWidth = Number( Reveal.getConfig().width ) || window.innerWidth;
+	var configHeight = Number( Reveal.getConfig().height ) || window.innerHeight;
+
 	var storage = [ {
-			width: Reveal.getConfig().width,
-			height: Reveal.getConfig().height,
+			width: configWidth,
+			height: configHeight,
 			data: []
 		},
 		{
-			width: Reveal.getConfig().width,
-			height: Reveal.getConfig().height,
+			width: configWidth,
+			height: configHeight,
 			data: []
 		}
 	];
@@ -814,8 +821,8 @@ console.warn( "toggleNotesButton is deprecated, use customcontrols plugin instea
 	}
 
 	function createDrawings( slideData, patImg ) {
-		var width = Reveal.getConfig().width;
-		var height = Reveal.getConfig().height;
+		var width = configWidth;
+		var height = configHeight;
 		var scale = 1;
 		var xOffset = 0;
 		var yOffset = 0;
@@ -1924,13 +1931,13 @@ console.warn( "toggleNotesButton is deprecated, use customcontrols plugin instea
 			}
 
 			storage = [ {
-					width: Reveal.getConfig().width,
-					height: Reveal.getConfig().height,
+					width: configWidth,
+					height: configHeight,
 					data: []
 				},
 				{
-					width: Reveal.getConfig().width,
-					height: Reveal.getConfig().height,
+					width: configWidth,
+					height: configHeight,
 					data: []
 				}
 			];
